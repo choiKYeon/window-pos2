@@ -1,0 +1,36 @@
+package com.example.windowsPos2.setting.entity;
+
+import com.example.windowsPos2.global.baseentity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDate;
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+@Entity
+public class TemporaryHoliday extends BaseEntity {
+
+    //    임시 휴무 시작 날짜
+    @Setter
+    private LocalDate temporaryHolidayStartDate = LocalDate.now();
+
+    //    임시 휴무 종료 날짜
+    @Setter
+    private LocalDate temporaryHolidayEndDate = LocalDate.now().plusDays(1);
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "closed_days_id")
+    @JsonBackReference
+    private ClosedDays closedDays;
+}
