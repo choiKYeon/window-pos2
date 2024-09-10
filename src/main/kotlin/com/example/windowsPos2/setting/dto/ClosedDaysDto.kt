@@ -2,12 +2,7 @@ package com.example.windowsPos2.setting.dto
 
 import lombok.*
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class ClosedDaysDto (
+data class ClosedDaysDto (
     var id : Long? = null,
 
 //    임시 휴무일

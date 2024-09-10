@@ -18,13 +18,12 @@ class NotProd {
         return CommandLineRunner {
             val member = memberRepository.findByUsername("gysoft")
             if (member == null) {
-                val admin = Member.builder()
-                    .name("관리자")
-                    .username("gysoft")
-                    .password(passwordEncoder.encode("1234"))
-                    .createDate(LocalDateTime.now())
-                    .build()
-
+                val admin = Member(
+                    "관리자",
+                    "gysoft",
+                    passwordEncoder.encode("1234"),
+                    null
+                )
                 memberRepository.save(admin)
             }
         }

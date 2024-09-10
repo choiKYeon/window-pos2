@@ -5,12 +5,7 @@ import lombok.*
 import lombok.experimental.SuperBuilder
 import java.time.LocalTime
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class OperatePauseDto (
+data class OperatePauseDto (
     var id : Long? = null,
 
 //    영업 일시 정지 시작 시간
@@ -20,5 +15,5 @@ class OperatePauseDto (
     var operatePauseEndTime : LocalTime? = null,
 
 //    영업 일시 정지 지속 시간
-    var operatePauseDuration : Int? = null
+    var operatePauseDuration : Long? = null
 )

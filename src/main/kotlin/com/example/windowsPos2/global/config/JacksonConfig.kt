@@ -14,6 +14,5 @@ class JacksonConfig {
         val objectMapper = ObjectMapper()
         objectMapper.registerModule(JavaTimeModule())
         return objectMapper
-
     }
 }

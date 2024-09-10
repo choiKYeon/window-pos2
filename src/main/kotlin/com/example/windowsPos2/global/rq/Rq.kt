@@ -28,6 +28,8 @@ class Rq(
             .httpOnly(true)
             .maxAge(maxAge.toLong())
             .build()
+
+        resp.addHeader("Set-Cookie", cookie.toString())
     }
 
     //    쿠키를 가져오는 구문

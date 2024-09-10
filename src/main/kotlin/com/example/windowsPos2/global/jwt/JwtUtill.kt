@@ -5,6 +5,8 @@ import com.example.windowsPos2.global.encrypt.EncryptionUtils
 import com.example.windowsPos2.global.util.Util
 import com.example.windowsPos2.member.dto.MemberDto
 import com.example.windowsPos2.member.service.MemberService
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import org.springframework.context.annotation.Lazy
@@ -48,10 +50,13 @@ class JwtUtill (
         val payloadBody = getDataFrom(accessToken)
         val id = (payloadBody["id"] as Int).toLong()
         val username = payloadBody["username"] as String
-        val authoritiesList = payloadBody["authorities"] as List<Map<String, String>>
 
-        val authorities = authoritiesList.map { authMap ->
-            SimpleGrantedAuthority(authMap["authority"])
+        // authorities는 이미 ArrayList이므로 String으로 캐스팅할 필요가 없음
+        val authoritiesList = payloadBody["authorities"] as List<String>
+
+        // authorities를 처리
+        val authorities = authoritiesList.map { authority ->
+            SimpleGrantedAuthority(authority)
         }
 
         return SecurityUser(

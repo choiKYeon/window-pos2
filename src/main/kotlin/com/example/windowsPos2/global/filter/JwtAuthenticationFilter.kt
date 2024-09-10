@@ -30,7 +30,6 @@ class JwtAuthenticationFilter (
         val path = request.requestURI
         val token = extractAccessToken(request)
 
-
 //        "/api/v1/member/login" 경로를 제외
         if ("/api/v1/member/login" == path) {
             filterChain.doFilter(request, response)
@@ -51,7 +50,7 @@ class JwtAuthenticationFilter (
         val rememberMe = rq.getCookieValue("rememberMe", null.toString())
 
 //        accessToken이 비어있지 않고, 검증되지 않았을 경우
-        if (accessToken != null && !jwtProvider.verify(accessToken)) {
+        if (!jwtProvider.verify(accessToken)) {
 
 //            accessToken이 만료된 경우, refreshToken 검증 및 새 accessToken 발급
             val refreshToken = rq.getCookieValue("refreshToken", null.toString())
@@ -62,14 +61,14 @@ class JwtAuthenticationFilter (
                 rq.removeCookie("refreshToken")
 
 //                refreshtoken이 존재하고 검증이 되었을 때
-            } else if (refreshToken != null && jwtProvider.verify(refreshToken)) {
+            } else if (jwtProvider.verify(refreshToken)) {
 
 //                새로운 accessToken 생성
                 val accessUsername = jwtProvider.getUsername(refreshToken)!!
                 val newAccessToken = jwtUtill.genAccessToken(accessUsername)
 
 //                자동 로그인 여부에 따라 쿠키 설정
-                if (rememberMe != null && rememberMe == "true") {
+                if (rememberMe == "true") {
                     rq.setCrossDomainCookie("accessToken", newAccessToken!!, 60 * 30)
                 } else {
                     rq.setCrossDomainCookie("accessToken", newAccessToken!!, -1)
@@ -86,19 +85,24 @@ class JwtAuthenticationFilter (
                 val newRefreshToken = jwtUtill.genRefreshToken(username)
 
 //                새 토큰 쿠키에 저장 (자동 로그인일 때)
-                if (rememberMe != null && rememberMe == "true") {
+                if (rememberMe == "true") {
                     rq.setCrossDomainCookie("refreshToken", newRefreshToken!!, 60 * 60 * 24 * 365 * 10)
                 } else {
                     rq.setCrossDomainCookie("refreshToken", newRefreshToken!!, -1)
                 }
-            } else if (accessToken != null && jwtProvider.verify(accessToken)) {
-
-                val securityUser = jwtUtill.getUserFromAccessToken(accessToken)
-                rq.setLogin(securityUser)
             }
 
-            filterChain.doFilter(request, response)
+            if (!jwtProvider.verify(accessToken)) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Token is missing or invalid")
+                return
+            }
+
+        } else if (jwtProvider.verify(accessToken)) {
+
+            val securityUser = jwtUtill.getUserFromAccessToken(accessToken)
+            rq.setLogin(securityUser)
         }
+        filterChain.doFilter(request, response)
     }
 
 //    강제로 로그인 처리하는 메서드 (세션 기반일 경우에)

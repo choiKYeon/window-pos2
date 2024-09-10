@@ -1,16 +1,9 @@
 package com.example.windowsPos2.orderManagement.dto
 
-import com.example.windowsPos2.orderManagement.entity.OrderUpdate
 import com.fasterxml.jackson.annotation.JsonFormat
-import lombok.*
 import java.time.LocalTime
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class OrderManagementDto (
+data class OrderManagementDto (
     var id : Long? = null,
 
 //    주문 시간
@@ -24,22 +17,22 @@ class OrderManagementDto (
     var address : String? = null,
 
 //    메뉴 총 금액
-    var menuTotalPrice : Long? = null,
+    var menuTotalPrice : Long? = 0L,
 
 //    총 금액
-    var totalPrice : Long? = null,
+    var totalPrice : Long? = 0L,
 
 //    수저 포크
-    var spoonFork : Boolean? = null,
+    var spoonFork : Boolean? = false,
 
 //    배달비
-    var deliveryFee : Long? = null,
+    var deliveryFee : Long? = 0L,
 
 //    주문 번호
     var orderNumber : Long? = null,
 
 //    주문 상태 관리
-    var orderStatus : String? = null,
+    var orderStatus : String? = "DELIVERY",
 
 //    포장인지 배달인지 주문 타입
     var orderType : String? = null,

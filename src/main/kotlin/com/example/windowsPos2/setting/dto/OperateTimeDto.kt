@@ -3,12 +3,7 @@ package com.example.windowsPos2.setting.dto
 import lombok.*
 import java.time.LocalTime
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class OperateTimeDto (
+data class OperateTimeDto (
     var id : Long? = null,
 
 //    임시 시작 시간
@@ -16,9 +11,6 @@ class OperateTimeDto (
 
 //    임시 종료 시간
     var temporaryOperateEndTime : Boolean? = false,
-
-//    임시 요일
-    var temporaryDay : String? = null,
 
 //    평일 24시간 영업
     var weekdayAllDay : Boolean? = false,

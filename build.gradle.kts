@@ -4,6 +4,8 @@ plugins {
 	id("org.springframework.boot") version "3.3.3"
 	id("io.spring.dependency-management") version "1.1.6"
 	kotlin("plugin.jpa") version "1.9.25"
+	kotlin("plugin.lombok") version "2.0.20"
+	id("io.freefair.lombok") version "8.10"
 }
 
 group = "com.example"
@@ -38,6 +40,8 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	implementation ("org.jetbrains.kotlin:kotlin-stdlib")
 
 	//   jwt
 	implementation ("io.jsonwebtoken:jjwt-api:0.12.6")

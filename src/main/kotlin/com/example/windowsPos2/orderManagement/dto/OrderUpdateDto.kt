@@ -2,12 +2,7 @@ package com.example.windowsPos2.orderManagement.dto
 
 import lombok.*
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class OrderUpdateDto (
+data class OrderUpdateDto (
     var id : Long? = null,
 
 //    주문 상태
@@ -20,6 +15,6 @@ class OrderUpdateDto (
     var estimatedCookingTime : Int? = null,
 
 //    도착 예상 시간
-    var estimatedArrivalTime : Int? = null,
+    var estimatedArrivalTime : Int? = null
 
 )

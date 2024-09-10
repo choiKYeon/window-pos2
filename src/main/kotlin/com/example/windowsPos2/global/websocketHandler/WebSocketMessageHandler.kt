@@ -48,7 +48,7 @@ class WebSocketMessageHandler : TextWebSocketHandler() {
         for (session in sessionMap.values) {
             try {
 //            세션을 통해 메세지 전송
-                println("real루 잘 보내질거야 : ${session.id}")
+                println("real 잘 보내질거야 : ${session.id}")
                 session.sendMessage(TextMessage(orderUpdateMessage))
             } catch (e : Exception) {
                 e.printStackTrace()

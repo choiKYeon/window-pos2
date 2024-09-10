@@ -2,12 +2,7 @@ package com.example.windowsPos2.setting.dto
 
 import lombok.*
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class RegularHolidayDto (
+data class RegularHolidayDto (
     var id : Long? = null,
 
 //    무슨 요일인지

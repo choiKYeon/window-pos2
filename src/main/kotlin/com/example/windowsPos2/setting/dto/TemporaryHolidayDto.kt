@@ -3,12 +3,7 @@ package com.example.windowsPos2.setting.dto
 import lombok.*
 import java.time.LocalDate
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class TemporaryHolidayDto (
+data class TemporaryHolidayDto (
     var id : Long? = null,
 
 //    임시 휴무 시작 날짜

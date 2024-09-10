@@ -42,15 +42,15 @@ class JwtProvider (
     }
 
     fun verify(token : String): Boolean {
-        return try {
+        try {
             Jwts.parser()
                 .setSigningKey(getSecretKey())
                 .build()
                 .parseClaimsJws(token)
-            true
         } catch (e: Exception) {
-            false
+           return false
         }
+        return true
     }
 
     fun getClaims(token : String): Map<String, Any>? {

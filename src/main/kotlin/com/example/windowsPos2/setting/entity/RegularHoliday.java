@@ -4,11 +4,9 @@ import com.example.windowsPos2.global.baseentity.BaseEntity;
 import com.example.windowsPos2.setting.settingEnum.RegularClosedDays;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -16,19 +14,16 @@ import java.time.temporal.WeekFields;
 import java.util.Locale;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 아무런 값도 갖지 않는 의미 없는 객체의 생성을 막음
+//@SuperBuilder(toBuilder = true) // 기존 객체 필드를 유지하면서 일부 값만 업데이트 가능
 @Entity
 public class RegularHoliday extends BaseEntity {
 
     //    무슨 요일인지
-    @Setter
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek = DayOfWeek.MONDAY;
 
     //    매 주 언제 정기휴무인지 ex) 첫째 주 / 둘째 주 / 매 주
-    @Setter
     @Enumerated(EnumType.STRING)
     private RegularClosedDays regularClosedDays = RegularClosedDays.FIRST;
 
@@ -59,9 +54,41 @@ public class RegularHoliday extends BaseEntity {
         return false;
     }
 
-    @Setter
     @ManyToOne
     @JoinColumn(name = "closed_days_id")
     @JsonBackReference
     private ClosedDays closedDays;
+
+    public RegularHoliday (DayOfWeek dayOfWeek,
+                           RegularClosedDays regularClosedDays,
+                           ClosedDays closedDays) {
+        this.dayOfWeek = dayOfWeek != null ? dayOfWeek : this.dayOfWeek;
+        this.regularClosedDays = regularClosedDays != null ? regularClosedDays : this.regularClosedDays;
+        this.closedDays = closedDays != null ? closedDays : this.closedDays;
+    }
+
+    public static class Builder {
+        private DayOfWeek dayOfWeek;
+        private RegularClosedDays regularClosedDays;
+        private ClosedDays closedDays;
+
+        public Builder dayOfWeek(DayOfWeek dayOfWeek) {
+            this.dayOfWeek = dayOfWeek;
+            return this;
+        }
+
+        public Builder regularClosedDays(RegularClosedDays regularClosedDays) {
+            this.regularClosedDays = regularClosedDays;
+            return this;
+        }
+
+        public Builder closedDays(ClosedDays closedDays) {
+            this.closedDays = closedDays;
+            return this;
+        }
+
+        public RegularHoliday build() {
+            return new RegularHoliday(dayOfWeek, regularClosedDays, closedDays);
+        }
+    }
 }

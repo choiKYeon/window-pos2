@@ -12,5 +12,4 @@ import java.util.Optional
 interface SettingRepository : JpaRepository<Setting, Long>{
     fun findByMember(member : Member) : Optional<Setting>
 
-    fun findByOperateStatus(operateStatus: OperateStatus, pageable: Pageable)
 }

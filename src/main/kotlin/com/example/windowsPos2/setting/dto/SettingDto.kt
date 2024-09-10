@@ -2,12 +2,7 @@ package com.example.windowsPos2.setting.dto
 
 import lombok.*
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class SettingDto (
+data class SettingDto (
     var id : Long? = null,
 
 //    영업 중단
@@ -23,7 +18,7 @@ class SettingDto (
     var estimatedArrivalTimeDto : EstimatedArrivalTimeDto? = null,
 
 //    휴무일
-    var ClosedDaysDto : ClosedDaysDto? = null,
+    var closedDaysDto : ClosedDaysDto? = null,
 
 //    브레이크 타임
     var breakTimeDto : BreakTimeDto? = null,

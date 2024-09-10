@@ -3,12 +3,7 @@ package com.example.windowsPos2.setting.dto
 import lombok.*
 import java.time.LocalTime
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class BreakTimeDto (
+data class BreakTimeDto (
     var id : Long? = null,
 
 //    브레이크 타임 임시 종료 시간
