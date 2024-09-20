@@ -8,6 +8,7 @@ import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 아무런 값도 갖지 않는 의미 없는 객체의 생성을 막음
@@ -16,12 +17,15 @@ import lombok.NoArgsConstructor;
 public class OrderUpdate extends BaseEntity {
 
     //    주문 거절 사유
+    @Setter
     private String rejectionReason;
 
     //    예상 조리시간
+    @Setter
     private Integer estimatedCookingTime;
 
     //    도착 예상 시간
+    @Setter
     private Integer estimatedArrivalTime;
 
     @OneToOne

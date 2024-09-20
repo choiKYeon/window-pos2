@@ -32,18 +32,26 @@ public class ClosedDays extends BaseEntity {
     private Setting setting;
 
 //    @Builder
-    public ClosedDays (List<TemporaryHoliday> temporaryHolidayList,
-                       List<RegularHoliday> regularHolidayList,
-                       Setting setting) {
-        this.temporaryHolidayList = temporaryHolidayList != null ? temporaryHolidayList : this.temporaryHolidayList;
-        this.regularHolidayList = regularHolidayList != null ? regularHolidayList : this.regularHolidayList;
-        this.setting = setting != null ? setting : this.setting;
+    private ClosedDays (Builder builder) {
+        this.temporaryHolidayList = builder.temporaryHolidayList != null ? builder.temporaryHolidayList : this.temporaryHolidayList;
+        this.regularHolidayList = builder.regularHolidayList != null ? builder.regularHolidayList : this.regularHolidayList;
+        this.setting = builder.setting != null ? builder.setting : this.setting;
     }
 
     public static class Builder {
         private List<TemporaryHoliday> temporaryHolidayList;
         private List<RegularHoliday> regularHolidayList;
         private Setting setting;
+
+        //        기본 생성자
+        public Builder () {}
+
+//        기존 객체를 기반으로하는 생성자 (빌더 패턴에서 부분 수정을 하기 위해 사용됨)
+        public Builder (ClosedDays closedDays) {
+            this.temporaryHolidayList = closedDays.temporaryHolidayList;
+            this.regularHolidayList = closedDays.regularHolidayList;
+            this.setting = closedDays.setting;
+        }
 
         public Builder temporaryHolidayList(List<TemporaryHoliday> temporaryHolidayList) {
             this.temporaryHolidayList = temporaryHolidayList;
@@ -61,7 +69,7 @@ public class ClosedDays extends BaseEntity {
         }
 
         public ClosedDays build() {
-            return new ClosedDays(temporaryHolidayList, regularHolidayList, setting);
+            return new ClosedDays(this);
         }
     }
 }

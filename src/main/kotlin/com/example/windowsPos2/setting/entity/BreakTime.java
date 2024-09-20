@@ -54,28 +54,18 @@ public class BreakTime extends BaseEntity {
     private Setting setting;
 
 //    @Builder
-    public BreakTime(LocalTime temporaryEndTime,
-                     Boolean weekdayBreakTime,
-                     LocalTime weekdayBreakTimeStart,
-                     LocalTime weekdayBreakTimeEnd,
-                     Boolean saturdayBreakTime,
-                     LocalTime saturdayBreakTimeStart,
-                     LocalTime saturdayBreakTimeEnd,
-                     Boolean sundayBreakTime,
-                     LocalTime sundayBreakTimeStart,
-                     LocalTime sundayBreakTimeEnd,
-                     Setting setting) {
-        this.temporaryEndTime = temporaryEndTime != null ? temporaryEndTime : this.temporaryEndTime;
-        this.weekdayBreakTime = weekdayBreakTime != null ? weekdayBreakTime : this.weekdayBreakTime;
-        this.weekdayBreakTimeStart = weekdayBreakTimeStart != null ? weekdayBreakTimeStart : this.weekdayBreakTimeStart;
-        this.weekdayBreakTimeEnd = weekdayBreakTimeEnd != null ? weekdayBreakTimeEnd : this.weekdayBreakTimeEnd;
-        this.saturdayBreakTime = saturdayBreakTime != null ? saturdayBreakTime : this.saturdayBreakTime;
-        this.saturdayBreakTimeStart = saturdayBreakTimeStart != null ? saturdayBreakTimeStart : this.saturdayBreakTimeStart;
-        this.saturdayBreakTimeEnd = saturdayBreakTimeEnd != null ? saturdayBreakTimeEnd : this.saturdayBreakTimeEnd;
-        this.sundayBreakTime = sundayBreakTime != null ? sundayBreakTime : this.sundayBreakTime;
-        this.sundayBreakTimeStart = sundayBreakTimeStart != null ? sundayBreakTimeStart : this.sundayBreakTimeStart;
-        this.sundayBreakTimeEnd = sundayBreakTimeEnd != null ? sundayBreakTimeEnd : this.sundayBreakTimeEnd;
-        this.setting = setting != null ? setting : this.setting;
+    private BreakTime(Builder builder) {
+        this.temporaryEndTime = builder.temporaryEndTime != null ? builder.temporaryEndTime : this.temporaryEndTime;
+        this.weekdayBreakTime = builder.weekdayBreakTime != null ? builder.weekdayBreakTime : this.weekdayBreakTime;
+        this.weekdayBreakTimeStart = builder.weekdayBreakTimeStart != null ? builder.weekdayBreakTimeStart : this.weekdayBreakTimeStart;
+        this.weekdayBreakTimeEnd = builder.weekdayBreakTimeEnd != null ? builder.weekdayBreakTimeEnd : this.weekdayBreakTimeEnd;
+        this.saturdayBreakTime = builder.saturdayBreakTime != null ? builder.saturdayBreakTime : this.saturdayBreakTime;
+        this.saturdayBreakTimeStart = builder.saturdayBreakTimeStart != null ? builder.saturdayBreakTimeStart : this.saturdayBreakTimeStart;
+        this.saturdayBreakTimeEnd = builder.saturdayBreakTimeEnd != null ? builder.saturdayBreakTimeEnd : this.saturdayBreakTimeEnd;
+        this.sundayBreakTime = builder.sundayBreakTime != null ? builder.sundayBreakTime : this.sundayBreakTime;
+        this.sundayBreakTimeStart = builder.sundayBreakTimeStart != null ? builder.sundayBreakTimeStart : this.sundayBreakTimeStart;
+        this.sundayBreakTimeEnd = builder.sundayBreakTimeEnd != null ? builder.sundayBreakTimeEnd : this.sundayBreakTimeEnd;
+        this.setting = builder.setting != null ? builder.setting : this.setting;
     }
 
     public static class Builder {
@@ -90,6 +80,24 @@ public class BreakTime extends BaseEntity {
         private LocalTime sundayBreakTimeStart;
         private LocalTime sundayBreakTimeEnd;
         private Setting setting;
+
+//        기본 생성자
+        public Builder () {}
+
+        // 기존 객체를 기반으로 하는 생성자 (빌더 패턴에서 부분 수정을 하기 위해 사용됨)
+        public Builder(BreakTime existing) {
+            this.temporaryEndTime = existing.getTemporaryEndTime();
+            this.weekdayBreakTime = existing.getWeekdayBreakTime();
+            this.weekdayBreakTimeStart = existing.getWeekdayBreakTimeStart();
+            this.weekdayBreakTimeEnd = existing.getWeekdayBreakTimeEnd();
+            this.saturdayBreakTime = existing.getSaturdayBreakTime();
+            this.saturdayBreakTimeStart = existing.getSaturdayBreakTimeStart();
+            this.saturdayBreakTimeEnd = existing.getSaturdayBreakTimeEnd();
+            this.sundayBreakTime = existing.getSundayBreakTime();
+            this.sundayBreakTimeStart = existing.getSundayBreakTimeStart();
+            this.sundayBreakTimeEnd = existing.getSundayBreakTimeEnd();
+            this.setting = existing.getSetting();
+        }
 
         public Builder temporaryEndTime(LocalTime temporaryEndTime) {
             this.temporaryEndTime = temporaryEndTime;
@@ -147,7 +155,7 @@ public class BreakTime extends BaseEntity {
         }
 
         public BreakTime build() {
-            return new BreakTime(temporaryEndTime, weekdayBreakTime, weekdayBreakTimeStart, weekdayBreakTimeEnd, saturdayBreakTime, saturdayBreakTimeStart, saturdayBreakTimeEnd, sundayBreakTime, sundayBreakTimeStart, sundayBreakTimeEnd, setting);
+            return new BreakTime(this);
         }
     }
 }

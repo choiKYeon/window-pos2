@@ -25,18 +25,26 @@ public class EstimatedCookingTime extends BaseEntity {
     private Setting setting;
 
 //    @Builder
-    public EstimatedCookingTime (Boolean estimatedCookingTimeControl,
-                                  Integer estimatedCookingTime,
-                                  Setting setting) {
-        this.estimatedCookingTimeControl = estimatedCookingTimeControl != null ? estimatedCookingTimeControl : this.estimatedCookingTimeControl;
-        this.estimatedCookingTime = estimatedCookingTime != null ? estimatedCookingTime : this.estimatedCookingTime;
-        this.setting = setting != null ? setting : this.setting;
+    private EstimatedCookingTime (Builder builder) {
+        this.estimatedCookingTimeControl = builder.estimatedCookingTimeControl != null ? builder.estimatedCookingTimeControl : this.estimatedCookingTimeControl;
+        this.estimatedCookingTime = builder.estimatedCookingTime != null ? builder.estimatedCookingTime : this.estimatedCookingTime;
+        this.setting = builder.setting != null ? builder.setting : this.setting;
     }
 
     public static class Builder {
         private Boolean estimatedCookingTimeControl;
         private Integer estimatedCookingTime;
         private Setting setting;
+
+        //        기본 생성자
+        public Builder () {}
+
+//        기존 객체를 기반으로하는 생성자 (빌더 패턴에서 부분 수정을 하기 위해 사용됨)
+        public Builder (EstimatedCookingTime estimatedCookingTime) {
+            this.estimatedCookingTimeControl = estimatedCookingTime.estimatedCookingTimeControl;
+            this.estimatedCookingTime = estimatedCookingTime.estimatedCookingTime;
+            this.setting = estimatedCookingTime.setting;
+        }
 
         public Builder estimatedCookingTimeControl(Boolean estimatedCookingTimeControl) {
             this.estimatedCookingTimeControl = estimatedCookingTimeControl;
@@ -54,7 +62,7 @@ public class EstimatedCookingTime extends BaseEntity {
         }
 
         public EstimatedCookingTime build() {
-            return new EstimatedCookingTime(estimatedCookingTimeControl, estimatedCookingTime, setting);
+            return new EstimatedCookingTime(this);
         }
     }
 }

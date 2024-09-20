@@ -1,7 +1,5 @@
 package com.example.windowsPos2.setting.dto
 
-import lombok.*
-
 data class SettingDto (
     var id : Long? = null,
 

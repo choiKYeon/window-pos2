@@ -16,11 +16,11 @@ import java.time.LocalTime;
 @Entity
 public class OperateTime extends BaseEntity {
 
-    //    임시 운영 시작
-    private Boolean temporaryOperateStartTime;
-
-    //    임시 운영 종료
-    private Boolean temporaryOperateEndTime;
+//    //    임시 운영 시작
+//    private Boolean temporaryOperateStartTime;
+//
+//    //    임시 운영 종료
+//    private Boolean temporaryOperateEndTime;
 
     //    평일 24시간 영업
     private Boolean weekdayAllDay = true;
@@ -53,27 +53,24 @@ public class OperateTime extends BaseEntity {
     @JoinColumn(name = "setting_id")
     private Setting setting;
 
-    public OperateTime (Boolean temporaryOperateStartTime, Boolean temporaryOperateEndTime,
-                        Boolean weekdayAllDay, LocalTime weekdayStartTime, LocalTime weekdayEndTime,
-                        Boolean saturdayAllDay, LocalTime saturdayStartTime, LocalTime saturdayEndTime,
-                        Boolean sundayAllDay, LocalTime sundayStartTime, LocalTime sundayEndTime, Setting setting) {
-        this.temporaryOperateStartTime = temporaryOperateStartTime != null ? temporaryOperateStartTime : this.temporaryOperateStartTime;
-        this.temporaryOperateEndTime = temporaryOperateEndTime != null ? temporaryOperateEndTime : this.temporaryOperateEndTime;
-        this.weekdayAllDay = weekdayAllDay != null ? weekdayAllDay : this.weekdayAllDay;
-        this.weekdayStartTime = weekdayStartTime != null ? weekdayStartTime : this.weekdayStartTime;
-        this.weekdayEndTime = weekdayEndTime != null ? weekdayEndTime : this.weekdayEndTime;
-        this.saturdayAllDay = saturdayAllDay != null ? saturdayAllDay : this.saturdayAllDay;
-        this.saturdayStartTime = saturdayStartTime != null ? saturdayStartTime : this.saturdayStartTime;
-        this.saturdayEndTime = saturdayEndTime != null ? saturdayEndTime : this.saturdayEndTime;
-        this.sundayAllDay = sundayAllDay != null ? sundayAllDay : this.sundayAllDay;
-        this.sundayStartTime = sundayStartTime != null ? sundayStartTime : this.sundayStartTime;
-        this.sundayEndTime = sundayEndTime != null ? sundayEndTime : this.sundayEndTime;
-        this.setting = setting != null ? setting : this.setting;
+    private OperateTime (Builder builder) {
+//        this.temporaryOperateStartTime = builder.temporaryOperateStartTime != null ? builder.temporaryOperateStartTime : this.temporaryOperateStartTime;
+//        this.temporaryOperateEndTime = builder.temporaryOperateEndTime != null ? builder.temporaryOperateEndTime : this.temporaryOperateEndTime;
+        this.weekdayAllDay = builder.weekdayAllDay != null ? builder.weekdayAllDay : this.weekdayAllDay;
+        this.weekdayStartTime = builder.weekdayStartTime != null ? builder.weekdayStartTime : this.weekdayStartTime;
+        this.weekdayEndTime = builder.weekdayEndTime != null ? builder.weekdayEndTime : this.weekdayEndTime;
+        this.saturdayAllDay = builder.saturdayAllDay != null ? builder.saturdayAllDay : this.saturdayAllDay;
+        this.saturdayStartTime = builder.saturdayStartTime != null ? builder.saturdayStartTime : this.saturdayStartTime;
+        this.saturdayEndTime = builder.saturdayEndTime != null ? builder.saturdayEndTime : this.saturdayEndTime;
+        this.sundayAllDay = builder.sundayAllDay != null ? builder.sundayAllDay : this.sundayAllDay;
+        this.sundayStartTime = builder.sundayStartTime != null ? builder.sundayStartTime : this.sundayStartTime;
+        this.sundayEndTime = builder.sundayEndTime != null ? builder.sundayEndTime : this.sundayEndTime;
+        this.setting = builder.setting != null ? builder.setting : this.setting;
     }
 
     public static class Builder {
-        private Boolean temporaryOperateStartTime;
-        private Boolean temporaryOperateEndTime;
+//        private Boolean temporaryOperateStartTime;
+//        private Boolean temporaryOperateEndTime;
         private Boolean weekdayAllDay;
         private LocalTime weekdayStartTime;
         private LocalTime weekdayEndTime;
@@ -85,15 +82,34 @@ public class OperateTime extends BaseEntity {
         private LocalTime sundayEndTime;
         private Setting setting;
 
-        public Builder temporaryOperateStartTime(Boolean temporaryOperateStartTime) {
-            this.temporaryOperateStartTime = temporaryOperateStartTime;
-            return this;
+        //        기본 생성자
+        public Builder () {}
+
+//        기존 객체를 기반으로하는 생성자 (빌더 패턴에서 부분 수정을 하기 위해 사용됨)
+        public Builder(OperateTime existing) {
+//            this.temporaryOperateStartTime = existing.temporaryOperateStartTime;
+//            this.temporaryOperateEndTime = existing.temporaryOperateEndTime;
+            this.weekdayAllDay = existing.weekdayAllDay;
+            this.weekdayStartTime = existing.weekdayStartTime;
+            this.weekdayEndTime = existing.weekdayEndTime;
+            this.saturdayAllDay = existing.saturdayAllDay;
+            this.saturdayStartTime = existing.saturdayStartTime;
+            this.saturdayEndTime = existing.saturdayEndTime;
+            this.sundayAllDay = existing.sundayAllDay;
+            this.sundayStartTime = existing.sundayStartTime;
+            this.sundayEndTime = existing.sundayEndTime;
+            this.setting = existing.setting;
         }
 
-        public Builder temporaryOperateEndTime(Boolean temporaryOperateEndTime) {
-            this.temporaryOperateEndTime = temporaryOperateEndTime;
-            return this;
-        }
+//        public Builder temporaryOperateStartTime(Boolean temporaryOperateStartTime) {
+//            this.temporaryOperateStartTime = temporaryOperateStartTime;
+//            return this;
+//        }
+//
+//        public Builder temporaryOperateEndTime(Boolean temporaryOperateEndTime) {
+//            this.temporaryOperateEndTime = temporaryOperateEndTime;
+//            return this;
+//        }
 
         public Builder weekdayAllDay(Boolean weekdayAllDay) {
             this.weekdayAllDay = weekdayAllDay;
@@ -146,8 +162,7 @@ public class OperateTime extends BaseEntity {
         }
 
         public OperateTime build() {
-            return new OperateTime(temporaryOperateStartTime, temporaryOperateEndTime, weekdayAllDay, weekdayStartTime, weekdayEndTime,
-                    saturdayAllDay, saturdayStartTime, saturdayEndTime, sundayAllDay, sundayStartTime, sundayEndTime, setting);
+            return new OperateTime(this);
         }
     }
 }

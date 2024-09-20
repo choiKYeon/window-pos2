@@ -23,7 +23,7 @@ class SecurityConfig (
         http
             .authorizeHttpRequests { authorizeHttpRequests ->
                 authorizeHttpRequests
-                    .requestMatchers("/**").permitAll() // 로그인은 누구나 가능
+                    .requestMatchers("/**").permitAll() // 해당 주소연결 누구나 가능
                     .anyRequest().authenticated() // 그 외에는 인증된 사용자만 가능
             }
             .cors { cors -> cors.configure(http)} // cors 활성화 , 브라우저 호환성을 높임

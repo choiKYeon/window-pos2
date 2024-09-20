@@ -59,18 +59,26 @@ public class RegularHoliday extends BaseEntity {
     @JsonBackReference
     private ClosedDays closedDays;
 
-    public RegularHoliday (DayOfWeek dayOfWeek,
-                           RegularClosedDays regularClosedDays,
-                           ClosedDays closedDays) {
-        this.dayOfWeek = dayOfWeek != null ? dayOfWeek : this.dayOfWeek;
-        this.regularClosedDays = regularClosedDays != null ? regularClosedDays : this.regularClosedDays;
-        this.closedDays = closedDays != null ? closedDays : this.closedDays;
+    private RegularHoliday (Builder builder) {
+        this.dayOfWeek = builder.dayOfWeek != null ? builder.dayOfWeek : this.dayOfWeek;
+        this.regularClosedDays = builder.regularClosedDays != null ? builder.regularClosedDays : this.regularClosedDays;
+        this.closedDays = builder.closedDays != null ? builder.closedDays : this.closedDays;
     }
 
     public static class Builder {
         private DayOfWeek dayOfWeek;
         private RegularClosedDays regularClosedDays;
         private ClosedDays closedDays;
+
+        //        기본 생성자
+        public Builder () {}
+
+//        기존 객체를 기반으로하는 생성자 (빌더 패턴에서 부분 수정을 하기 위해 사용됨)
+        public Builder (RegularHoliday regularHoliday) {
+            this.dayOfWeek = regularHoliday.dayOfWeek;
+            this.regularClosedDays = regularHoliday.regularClosedDays;
+            this.closedDays = regularHoliday.closedDays;
+        }
 
         public Builder dayOfWeek(DayOfWeek dayOfWeek) {
             this.dayOfWeek = dayOfWeek;
@@ -88,7 +96,7 @@ public class RegularHoliday extends BaseEntity {
         }
 
         public RegularHoliday build() {
-            return new RegularHoliday(dayOfWeek, regularClosedDays, closedDays);
+            return new RegularHoliday(this);
         }
     }
 }

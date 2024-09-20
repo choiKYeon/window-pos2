@@ -8,14 +8,13 @@ import com.example.windowsPos2.member.service.MemberService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.server.reactive.ServerHttpRequest
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UsernameNotFoundException
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
-import java.util.logging.Filter
 
 // HTTP 요청이 들어올때마다 사용자의 토큰을 검사하는 구문
 @Component
@@ -31,7 +30,7 @@ class JwtAuthenticationFilter (
         val token = extractAccessToken(request)
 
 //        "/api/v1/member/login" 경로를 제외
-        if ("/api/v1/member/login" == path) {
+        if ("/api/v1/member/login" == path || !path.startsWith("/api") || !path.startsWith("/swagger-ui/**")) {
             filterChain.doFilter(request, response)
             return
         }
@@ -134,7 +133,8 @@ class JwtAuthenticationFilter (
                     }
                 }
             }
-            return null
+            val token = request.getHeader("accessToken")
+            return token
         }
 
         fun extractRefreshToken(request: HttpServletRequest): String? {

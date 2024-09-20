@@ -26,16 +26,26 @@ public class OperatePause extends BaseEntity {
     @JoinColumn(name = "setting_id")
     private Setting setting;
 
-    public OperatePause(LocalTime operatePauseStartTime, LocalTime operatePauseEndTime, Setting setting) {
-        this.operatePauseStartTime = operatePauseStartTime != null ? operatePauseStartTime : this.operatePauseStartTime;
-        this.operatePauseEndTime = operatePauseEndTime != null ? operatePauseEndTime : this.operatePauseEndTime;
-        this.setting = setting != null ? setting : this.setting;
+    private OperatePause(Builder builder) {
+        this.operatePauseStartTime = builder.operatePauseStartTime != null ? builder.operatePauseStartTime : this.operatePauseStartTime;
+        this.operatePauseEndTime = builder.operatePauseEndTime != null ? builder.operatePauseEndTime : this.operatePauseEndTime;
+        this.setting = builder.setting != null ? builder.setting : this.setting;
     }
 
     public static class Builder {
         private LocalTime operatePauseStartTime;
         private LocalTime operatePauseEndTime;
         private Setting setting;
+
+        //        기본 생성자
+        public Builder () {}
+
+//        기존 객체를 기반으로하는 생성자 (빌더 패턴에서 부분 수정을 하기 위해 사용됨)
+        public Builder (OperatePause operatePause) {
+            this.operatePauseStartTime = operatePause.operatePauseStartTime;
+            this.operatePauseEndTime = operatePause.operatePauseEndTime;
+            this.setting = operatePause.setting;
+        }
 
         public Builder operatePauseStartTime(LocalTime operatePauseStartTime) {
             this.operatePauseStartTime = operatePauseStartTime;
@@ -53,7 +63,7 @@ public class OperatePause extends BaseEntity {
         }
 
         public OperatePause build() {
-            return new OperatePause(operatePauseStartTime, operatePauseEndTime, setting);
+            return new OperatePause(this);
         }
     }
 }

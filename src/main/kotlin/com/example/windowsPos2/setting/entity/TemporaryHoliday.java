@@ -27,12 +27,10 @@ public class TemporaryHoliday extends BaseEntity {
     @JsonBackReference
     private ClosedDays closedDays;
 
-    public TemporaryHoliday(LocalDate temporaryHolidayStartDate,
-                            LocalDate temporaryHolidayEndDate,
-                            ClosedDays closedDays) {
-        this.temporaryHolidayStartDate = temporaryHolidayStartDate;
-        this.temporaryHolidayEndDate = temporaryHolidayEndDate;
-        this.closedDays = closedDays;
+    private TemporaryHoliday(Builder builder) {
+        this.temporaryHolidayStartDate = builder.temporaryHolidayStartDate != null ? builder.temporaryHolidayStartDate : this.temporaryHolidayStartDate;
+        this.temporaryHolidayEndDate = builder.temporaryHolidayEndDate != null ? builder.temporaryHolidayEndDate : this.temporaryHolidayEndDate;
+        this.closedDays = builder.closedDays != null ? builder.closedDays : this.closedDays;
     }
 
     public static class Builder {
@@ -56,7 +54,7 @@ public class TemporaryHoliday extends BaseEntity {
         }
 
         public TemporaryHoliday build() {
-            return new TemporaryHoliday(temporaryHolidayStartDate, temporaryHolidayEndDate, closedDays);
+            return new TemporaryHoliday(this);
         }
     }
 }

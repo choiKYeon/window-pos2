@@ -4,9 +4,11 @@ import com.example.windowsPos2.converter.DtoConverter
 import com.example.windowsPos2.converter.EntityConverter
 import com.example.windowsPos2.member.service.MemberService
 import com.example.windowsPos2.orderManagement.dto.OrderManagementDto
+import com.example.windowsPos2.orderManagement.dto.OrderUpdateDto
 import com.example.windowsPos2.orderManagement.entity.Menu
 import com.example.windowsPos2.orderManagement.entity.MenuOption
 import com.example.windowsPos2.orderManagement.entity.OrderManagement
+import com.example.windowsPos2.orderManagement.entity.OrderUpdate
 import com.example.windowsPos2.orderManagement.orderEnum.OrderStatus
 import com.example.windowsPos2.orderManagement.orderEnum.OrderType
 import com.example.windowsPos2.orderManagement.repository.OrderManagementRepository
@@ -36,7 +38,7 @@ class OrderManagementService(
         val currentMember = memberService.getCurrentMember()
         val operateStatus = settingRepository.findByMember(currentMember).get().operateStatus
 
-        if (operateStatus == OperateStatus.END || operateStatus == OperateStatus.PAUSE) {
+        if (operateStatus == OperateStatus.END || operateStatus == OperateStatus.PAUSE || operateStatus == OperateStatus.BREAKTIME) {
             throw IllegalStateException("영업 상태가 영업 종료 또는 영업 중단 상태입니다. 주문을 생성할 수 없습니다.")
         }
 
@@ -92,5 +94,39 @@ class OrderManagementService(
         orderManagementRepository.save(orderManagement)
 
         return orderManagement
+    }
+
+//    객체를 사용하여 주문을 업데이트 하는 구문
+    @Transactional
+    fun updateOrder(orderUpdateDto: OrderUpdateDto) {
+        if (orderUpdateDto == null) return
+
+//    주문 id로 주문을 조회
+        val orderManagement: OrderManagement = orderUpdateDto.id?.let { orderManagementRepository.findById(it).orElseThrow { RuntimeException("주문 못 찾음") } }
+            ?: return
+
+        val newStatus = orderUpdateDto.orderStatus?.let { OrderStatus.valueOf(it) }
+            ?: throw IllegalArgumentException("주문 상태가 없습니다.")
+
+        when (newStatus) {
+            OrderStatus.IN_PROGRESS -> orderManagement.acceptOrder()
+            OrderStatus.COMPLETED -> orderManagement.completeOrder()
+            OrderStatus.REJECTED -> orderManagement.rejectOrder()
+            OrderStatus.CANCELLED -> orderManagement.cancelOrder()
+            else -> throw IllegalArgumentException("주문 상태업로드 실패.")
+        }
+
+        // 주문 업데이트
+        orderUpdateDto.rejectReason?.let {
+            orderManagement.orderUpdate?.rejectionReason = it
+        }
+        orderUpdateDto.estimatedCookingTime?.let {
+            orderManagement.orderUpdate?.estimatedCookingTime = it
+        }
+        orderUpdateDto.estimatedArrivalTime?.let {
+            orderManagement.orderUpdate?.estimatedArrivalTime = it
+        }
+
+        orderManagementRepository.save(orderManagement)
     }
 }

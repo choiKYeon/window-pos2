@@ -42,22 +42,21 @@ public class Setting extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OperateStatus operateStatus = OperateStatus.START;
 
+
     @OneToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public Setting(OperatePause operatePause, OperateTime operateTime, EstimatedCookingTime estimatedCookingTime,
-                   EstimatedArrivalTime estimatedArrivalTime, ClosedDays closedDays, BreakTime breakTime,
-                   OperateStatus operateStatus, Member member) {
+    private Setting(Builder builder) {
 
-        this.operatePause = operatePause != null ? operatePause : this.operatePause;
-        this.operateTime = operateTime != null ? operateTime : this.operateTime;
-        this.estimatedCookingTime = estimatedCookingTime != null ? estimatedCookingTime : this.estimatedCookingTime;
-        this.estimatedArrivalTime = estimatedArrivalTime != null ? estimatedArrivalTime : this.estimatedArrivalTime;
-        this.closedDays = closedDays != null ? closedDays : this.closedDays;
-        this.breakTime = breakTime != null ? breakTime : this.breakTime;
-        this.operateStatus = operateStatus != null ? operateStatus : this.operateStatus;
-        this.member = member != null ? member : this.member;
+        this.operatePause = builder.operatePause != null ? builder.operatePause : this.operatePause;
+        this.operateTime = builder.operateTime != null ? builder.operateTime : this.operateTime;
+        this.estimatedCookingTime = builder.estimatedCookingTime != null ? builder.estimatedCookingTime : this.estimatedCookingTime;
+        this.estimatedArrivalTime = builder.estimatedArrivalTime != null ? builder.estimatedArrivalTime : this.estimatedArrivalTime;
+        this.closedDays = builder.closedDays != null ? builder.closedDays : this.closedDays;
+        this.breakTime = builder.breakTime != null ? builder.breakTime : this.breakTime;
+        this.operateStatus = builder.operateStatus != null ? builder.operateStatus : this.operateStatus;
+        this.member = builder.member != null ? builder.member : this.member;
     }
 
     public static class Builder {
@@ -69,6 +68,21 @@ public class Setting extends BaseEntity {
         private BreakTime breakTime;
         private OperateStatus operateStatus;
         private Member member;
+
+        //        기본 생성자
+        public Builder () {}
+
+//        기존 객체를 기반으로하는 생성자 (빌더 패턴에서 부분 수정을 하기 위해 사용됨)
+        public Builder(Setting existing) {
+            this.operatePause = existing.operatePause;
+            this.operateTime = existing.operateTime;
+            this.estimatedCookingTime = existing.estimatedCookingTime;
+            this.estimatedArrivalTime = existing.estimatedArrivalTime;
+            this.closedDays = existing.closedDays;
+            this.breakTime = existing.breakTime;
+            this.operateStatus = existing.operateStatus;
+            this.member = existing.member;
+        }
 
         public Builder operatePause(OperatePause operatePause) {
             this.operatePause = operatePause;
@@ -111,7 +125,7 @@ public class Setting extends BaseEntity {
         }
 
         public Setting build() {
-            return new Setting(operatePause, operateTime, estimatedCookingTime, estimatedArrivalTime, closedDays, breakTime, operateStatus, member);
+            return new Setting(this);
         }
     }
 }

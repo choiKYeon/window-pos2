@@ -29,6 +29,8 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation ("org.springframework.security:spring-security-messaging")
+	implementation ("org.springframework.boot:spring-boot-starter-validation")
 	implementation ("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -53,6 +55,10 @@ dependencies {
 
 	//	localDataTime json으로 직렬화 or 역직렬화를 하기 위한 모듈
 	implementation ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2")
+
+    //	스프링Doc, swagger 사용 api
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+
 }
 
 kotlin {

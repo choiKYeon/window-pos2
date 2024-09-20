@@ -25,18 +25,26 @@ public class EstimatedArrivalTime extends BaseEntity {
     private Setting setting;
 
 //    @Builder
-    public EstimatedArrivalTime (Boolean estimatedArrivalTimeControl,
-                                  Integer estimatedArrivalTime,
-                                  Setting setting) {
-        this.estimatedArrivalTimeControl = estimatedArrivalTimeControl != null ? estimatedArrivalTimeControl : this.estimatedArrivalTimeControl;
-        this.estimatedArrivalTime = estimatedArrivalTime != null ? estimatedArrivalTime : this.estimatedArrivalTime;
-        this.setting = setting != null ? setting : this.setting;
+    private EstimatedArrivalTime (Builder builder) {
+        this.estimatedArrivalTimeControl = builder.estimatedArrivalTimeControl != null ? builder.estimatedArrivalTimeControl : this.estimatedArrivalTimeControl;
+        this.estimatedArrivalTime = builder.estimatedArrivalTime != null ? builder.estimatedArrivalTime : this.estimatedArrivalTime;
+        this.setting = builder.setting != null ? builder.setting : this.setting;
     }
 
     public static class Builder {
         private Boolean estimatedArrivalTimeControl;
         private Integer estimatedArrivalTime;
         private Setting setting;
+
+        //        기본 생성자
+        public Builder () {}
+
+//        기존 객체를 기반으로하는 생성자 (빌더 패턴에서 부분 수정을 하기 위해 사용됨)
+        public Builder (EstimatedArrivalTime estimatedArrivalTime) {
+            this.estimatedArrivalTimeControl = estimatedArrivalTime.estimatedArrivalTimeControl;
+            this.estimatedArrivalTime = estimatedArrivalTime.estimatedArrivalTime;
+            this.setting = estimatedArrivalTime.setting;
+        }
 
         public Builder estimatedArrivalTimeControl(Boolean estimatedArrivalTimeControl) {
             this.estimatedArrivalTimeControl = estimatedArrivalTimeControl;
@@ -54,7 +62,7 @@ public class EstimatedArrivalTime extends BaseEntity {
         }
 
         public EstimatedArrivalTime build() {
-            return new EstimatedArrivalTime(estimatedArrivalTimeControl, estimatedArrivalTime, setting);
+            return new EstimatedArrivalTime(this);
         }
     }
 }
